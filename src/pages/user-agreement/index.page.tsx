@@ -16,6 +16,8 @@ type NormalizedData = {
 	userAgreement: string;
 };
 
+export const runtime = 'edge';
+
 export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
 	route,
 	queryOptions: () => ({

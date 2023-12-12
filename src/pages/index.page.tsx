@@ -14,17 +14,13 @@ type QueriedData = null;
 type QueryVariables = null;
 type NormalizedData = null;
 
+export const runtime = 'edge';
+
 export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
 	route: RoutesService._homepage,
 	queryOptions: null,
 	normalizeData: null
 }).getServerSideProps;
-
-// export const runtime = 'experimental-edge';
-//
-// export const config = {
-// 	runtime: 'experimental-edge',
-// };
 
 const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedData>> = ({ normalizedData }) => {
 	const i18n = useI18n();
