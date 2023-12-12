@@ -27,6 +27,9 @@ module.exports = () => {
 		experimental: {
 			largePageDataBytes: 128 * 100000
 		},
+		serverRuntimeConfig: {
+			runtime: 'edge'
+		},
 		headers: async () => [
 			{
 				source: '/(fonts|images)/:path*',
