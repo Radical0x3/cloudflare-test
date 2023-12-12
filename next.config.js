@@ -25,10 +25,7 @@ module.exports = () => {
 			unoptimized: true
 		},
 		experimental: {
-			largePageDataBytes: 128 * 100000,
-			experimental: {
-				runtime: 'edge'
-			}
+			largePageDataBytes: 128 * 100000
 		},
 		headers: async () => [
 			{

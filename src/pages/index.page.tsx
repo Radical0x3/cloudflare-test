@@ -14,10 +14,6 @@ type QueriedData = null;
 type QueryVariables = null;
 type NormalizedData = null;
 
-export const config = {
-	runtime: 'edge'
-};
-
 export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
 	route: RoutesService._homepage,
 	queryOptions: null,
