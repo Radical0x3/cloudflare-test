@@ -15,8 +15,6 @@ Router.events.on('routeChangeError', nProgressEnd);
 
 let observer: MutationObserver | null = null;
 
-export const runtime = 'experimental-edge';
-
 export default function App({ Component: PageComponent, pageProps, emotionCache }: EnhancedAppProps): ReactElement {
 	const router = useRouter();
 	const language = router.locale || I18nService.DEFAULT_LOCALE;
