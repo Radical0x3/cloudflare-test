@@ -1,0 +1,39 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"incremental": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"baseUrl": "./src/",
+		"tsBuildInfoFile": ".tsbuildinfo",
+		"paths": {
+			"Components/*": ["./Components/*"],
+			"Constants/*": ["./Constants/*"],
+			"Dictionaries/*": ["./Dictionaries/*"],
+			"Icons/*": ["./Icons/*"],
+			"Interfaces/*": ["./Interfaces/*"],
+			"Layouts/*": ["./Layouts/*"],
+			"pages/*": ["./pages/*"],
+			"Services/*": ["./Services/*"],
+			"UI/*": ["./UI/*"],
+			"Widgets/*": ["./Widgets/*"]
+		},
+		"typeRoots": ["./node_modules/@types", "./src/@types"]
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": [
+		"node_modules"
+	]
+}

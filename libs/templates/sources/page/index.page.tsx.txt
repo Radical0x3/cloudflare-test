@@ -1,0 +1,20 @@
+import { AppPage } from 'Interfaces/AppPage';
+import { SSRPublic, SSRPublicInitProps, SSRPublicPageProps } from 'Services/ServerSide';
+import { BaseLayout } from 'Layouts/BaseLayout';
+import { route } from './route';
+
+type QueriedData = null;
+type QueryVariables = null;
+type NormalizedData = null;
+
+export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
+	route,
+	queryOptions: null,
+	normalizeData: null
+}).getServerSideProps;
+
+const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedData>> = ({ normalizedData }) => {
+	return <BaseLayout {...(normalizedData || {})}>__NameMarker__</BaseLayout>;
+}
+
+export { Page as default };

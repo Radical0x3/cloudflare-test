@@ -1,0 +1,5 @@
+# Declare files that will always have LF line endings on checkout.
+libs/**/*.* text eol=lf
+docs/**/*.* text eol=lf
+src/**/*.* text eol=lf
+next-env.d.ts text eol=lf

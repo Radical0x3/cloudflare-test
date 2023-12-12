@@ -1,0 +1,1 @@
+export { URLSearchService } from './class';

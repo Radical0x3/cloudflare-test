@@ -1,0 +1,19 @@
+{
+	"steps": [],
+	"master": [
+		"git reset --hard",
+		"git pull origin master",
+		"pnpm install --frozen-lockfile",
+		"pnpm run build",
+		"pm2 reload PROD_WORKER",
+		"pm2 status PROD_WORKER"
+	],
+	"develop": [
+		"git reset --hard",
+		"git pull origin develop",
+		"pnpm install --frozen-lockfile",
+		"pnpm run build",
+		"pm2 reload lynq-landing-dev-app",
+		"pm2 status lynq-landing-dev-app"
+	]
+}

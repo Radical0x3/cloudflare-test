@@ -1,0 +1,87 @@
+image: node:20.2.0
+
+definitions:
+    caches:
+        pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
+        eslint-cache: ./.cache/eslint
+        jest-cache: ./.cache/jest
+        next-cache: ./.next/cache
+    steps:
+        - step: &feature-test
+              name: Test feature
+              caches:
+                  - jest-cache
+                  - eslint-cache
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run test-ci
+        - step: &feature-build
+              name: Build App for feature
+              caches:
+                  - next-cache
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run build
+        - step: &release-or-bugfix-test
+              name: Test release/bugix
+              caches:
+                  - jest-cache
+                  - eslint-cache
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run test-ci:clear-cache
+        - step: &release-or-bugfix-build
+              name: Build App for release/bugix
+              caches:
+                  - next-cache
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run build:clear-cache
+        - step: &hotfix-test
+              name: Test hotfix
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run test-ci:clear-cache
+        - step: &hotfix-build
+              name: Build App for hotfix
+              script:
+                  - corepack enable
+                  - corepack prepare pnpm@latest-8 --activate
+                  - pnpm install --frozen-lockfile
+                  - pnpm run build:clear-cache
+
+options:
+    max-time: 10 # minutes
+
+pipelines:
+    pull-requests:
+        develop:
+            - parallel:
+                  - step: *release-or-bugfix-test
+                  - step: *release-or-bugfix-build
+        feature/*:
+            - parallel:
+                  - step: *feature-test
+                  - step: *feature-build
+        bugfix/*:
+            - parallel:
+                  - step: *release-or-bugfix-test
+                  - step: *release-or-bugfix-build
+        release/*:
+            - parallel:
+                  - step: *release-or-bugfix-test
+                  - step: *release-or-bugfix-build
+        hotfix/*:
+            - parallel:
+                  - step: *hotfix-test
+                  - step: *hotfix-build

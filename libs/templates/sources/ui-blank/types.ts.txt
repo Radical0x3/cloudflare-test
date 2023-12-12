@@ -1,0 +1,3 @@
+import { __NameMarker__Props } from '@mui/material';
+
+export interface Ui__NameMarker__Props extends __NameMarker__Props {}

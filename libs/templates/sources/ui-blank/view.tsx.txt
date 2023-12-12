@@ -1,0 +1,7 @@
+import { FC } from 'react';
+import { Root } from './styled';
+import { Ui__NameMarker__Props } from './types';
+
+export const Ui__NameMarker__: FC<Ui__NameMarker__Props> = (props) => {
+	return <Root {...props} />;
+};

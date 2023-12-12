@@ -1,0 +1,7 @@
+import { FC } from 'react';
+import { Root } from './styled';
+import { __NameMarker__Props } from './types';
+
+export const __NameMarker__: FC<__NameMarker__Props> = () => {
+	return <Root>__NameMarker__</Root>;
+};

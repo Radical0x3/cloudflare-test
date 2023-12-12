@@ -1,0 +1,55 @@
+{
+	"root": true,
+	"extends": [
+		"@wezom/eslint-config",
+		"eslint-config-next",
+		"eslint-config-next/core-web-vitals",
+		"eslint-config-prettier"
+	],
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"requireConfigFile": false
+	},
+	"plugins": ["jest"],
+	"env": {
+		"jest/globals": true
+	},
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"extends": [
+				"@wezom/eslint-config-ts",
+				"eslint-config-next",
+				"eslint-config-next/core-web-vitals",
+				"eslint-config-prettier"
+			],
+			"parserOptions": {
+				"project": "./tsconfig.eslint.json"
+			}
+		},
+		{
+			"files": ["*.tsx"],
+			"extends": [
+				"@wezom/eslint-config-ts-react",
+				"eslint-config-next",
+				"eslint-config-next/core-web-vitals",
+				"eslint-config-prettier"
+			],
+			"parserOptions": {
+				"project": "./tsconfig.eslint.json"
+			},
+			"rules": {
+				"@next/next/no-img-element": 0,
+				"@next/next/no-page-custom-font": 0,
+				"jsx-a11y/anchor-is-valid": 0,
+				"jsx-a11y/anchor-has-content": 0,
+				"react/display-name": 0,
+				"react-hooks/exhaustive-deps": 2,
+				"@typescript-eslint/no-floating-promises": 0,
+				"@typescript-eslint/ban-ts-comment": 0,
+				"@typescript-eslint/no-misused-promises": 0,
+				"@typescript-eslint/no-unsafe-return": 0
+			}
+		}
+	]
+}

@@ -1,0 +1,1682 @@
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
+
+input AdminInput {
+	email: String!
+	name: String!
+	password: String
+	role_id: Int
+}
+
+type AdminLoginType {
+	access_expires_in: Int!
+	access_token: String!
+	refresh_expires_in: Int!
+	refresh_token: String!
+	token_type: String!
+}
+
+"""
+Список всех возможных разрешений для типа: graph_admin
+"""
+enum AdminPermissionEnum {
+	admin_create
+	admin_delete
+	admin_list
+	admin_update
+	calendar_day_create
+	calendar_day_delete
+	calendar_day_import
+	calendar_day_list
+	calendar_day_update
+	chat_notification_list
+	chat_room_list
+	country_create
+	country_delete
+	country_list
+	country_select_list
+	country_update
+	divination_create
+	divination_delete
+	divination_import
+	divination_list
+	divination_update
+	fake_user_create
+	fake_user_delete
+	fake_user_list
+	fake_user_update
+	family_status_create
+	family_status_delete
+	family_status_list
+	family_status_select_list
+	family_status_update
+	faq_create
+	faq_delete
+	faq_list
+	faq_update
+	gender_list
+	gender_select_list
+	gender_update
+	global_setting_list
+	global_setting_update
+	ip_access_create
+	ip_access_delete
+	ip_access_list
+	ip_access_update
+	life_preference_create
+	life_preference_delete
+	life_preference_list
+	life_preference_select_list
+	life_preference_update
+	looking_for_create
+	looking_for_delete
+	looking_for_list
+	looking_for_select_list
+	looking_for_update
+	report_list
+	report_reason_create
+	report_reason_delete
+	report_reason_list
+	report_reason_update
+	role_create
+	role_delete
+	role_list
+	role_update
+	settlement_create
+	settlement_delete
+	settlement_list
+	settlement_select_list
+	settlement_update
+	subscription_plan_create
+	subscription_plan_delete
+	subscription_plan_list
+	subscription_plan_update
+	translate_delete
+	translate_list
+	translate_update
+	user_block
+	user_create
+	user_delete
+	user_list
+	user_update
+	weekly_horoscope_create
+	weekly_horoscope_delete
+	weekly_horoscope_import
+	weekly_horoscope_list
+	weekly_horoscope_update
+	zodiac_sign_import
+	zodiac_sign_list
+	zodiac_sign_select_list
+	zodiac_sign_update
+}
+
+type AdminProfileType {
+	created_at: String!
+	email: String!
+	id: ID!
+	language: LanguageType
+	name: String!
+	"""
+	Список возможных разрешений для текущей модели.
+	"""
+	permission: [String]
+	permissions: [PermissionType]
+	roles: [RoleType]
+	sign: String!
+	updated_at: String!
+}
+
+type AdminType {
+	active: Boolean!
+	created_at: String!
+	email: String!
+	id: ID!
+	name: String!
+	"""
+	Список возможных разрешений для текущей модели.
+	"""
+	permission: [String]
+	roles: [RoleType]
+	updated_at: String!
+}
+
+type AdminUserLoginType {
+	access_token: String!
+	expires_in: Int!
+	token_type: String!
+}
+
+"""
+Список возможных привязок предупреждающих сообщений.
+"""
+enum AlertEnumType {
+	email_not_verified
+}
+
+"""
+Сообщение для отображения на фронте.
+"""
+type AlertMessageType {
+	message: String!
+	"""
+	Возможные варианты: email_not_verified
+	"""
+	target: AlertEnumType
+	"""
+	Возможные варианты: success, danger, warning
+	"""
+	type: MessageTypeEnum!
+}
+
+union Authenticatable = AdminType | UserType
+
+enum CalendarDayForDateEnum {
+	bad
+	good
+	unclear
+}
+
+input CalendarDayInput {
+	active: Boolean!
+	date: String!
+	for_date: CalendarDayForDateEnum!
+	translates: [CalendarDayTranslateInput!]!
+}
+
+input CalendarDayTranslateInput {
+	description: String
+	language: String!
+	tips: String
+}
+
+type CalendarDayTranslateType {
+	description: String
+	language: String!
+	tips: String
+}
+
+type CalendarDayType {
+	active: Boolean!
+	created_at: String!
+	date: String!
+	for_date: CalendarDayForDateEnum!
+	id: ID!
+	translate: CalendarDayTranslateType!
+	translates: [CalendarDayTranslateType!]!
+	updated_at: String!
+}
+
+type CalendarDayTypePagination {
+	"""
+	List of items on the current page
+	"""
+	data: [CalendarDayType]
+	"""
+	Pagination meta data
+	"""
+	meta: PaginationMeta!
+}
+
+type ChatMessageAttachmentType {
+	created_at: String!
+	id: ID!
+	name: String!
+	updated_at: String!
+	url: String!
+}
+
+type ChatMessageType {
+	attachments: [ChatMessageAttachmentType!]
+	created_at: String!
+	id: ID!
+	read: Boolean!
+	room_id: ID!
+	text: String
+	updated_at: String!
+	user: ChatUserType!
+	user_id: ID!
+}
+
+type ChatMessageTypeChatPagination {
+	"""
+	List of items on the current page
+	"""
+	data: [ChatMessageType]
+	"""
+	Determines if cursor has more pages after the current page
+	"""
+	has_more_pages: Boolean!
+	"""
+	Number of items returned per page
+	"""
+	per_page: Int!
+}
+
+type ChatRoomType {
+	id: ID!
+	last_message: ChatMessageType
+	new_messages: Int!
+	users: [ChatUserType!]
+}
+
+type ChatSimpleRoomType {
+	id: ID!
+	users: [ChatUserType!]
+}
+
+type ChatUnreadRoomType {
+	count: Int!
+	id: ID!
+	users: [ChatUserType!]
+}
+
+type ChatUnreadRoomsType {
+	all_count: Int!
+	rooms: [ChatUnreadRoomType!]!
+}
+
+type ChatUserType {
+	avatar_url: String
+	id: ID!
+	name: String!
+	online: Boolean!
+	zodiac_sign: ZodiacSignEnum
+}
+
+type CoordinateType {
+	"""
+	Долгота
+	"""
+	latitude: Float!
+	"""
+	Широта
+	"""
+	longitude: Float!
+}
+
+input CoordinatesInput {
+	latitude: Float!
+	longitude: Float!
+}
+
+input CountryInput {
+	iso_alpha_2: String!
+	translates: [CountryTranslateInput!]!
+}
+
+input CountryTranslateInput {
+	language: String!
+	name: String!
+}
+
+type CountryTranslateType {
+	language: String!
+	name: String!
+}
+
+type CountryType {
+	created_at: String!
+	id: ID!
+	iso_alpha_2: String!
+	translate: CountryTranslateType!
+	translates: [CountryTranslateType!]!
+	updated_at: String!
+}
+
+"""
+Список валют.
+"""
+enum CurrencyEnumType {
+	BYN
+	EUR
+	RUB
+	UAH
+	USD
+}
+
+input DivinationInput {
+	active: Boolean!
+	gender_id: ID!
+	translates: [DivinationTranslateInput!]!
+	zodiac_sign_id: ID!
+}
+
+input DivinationTranslateInput {
+	language: String!
+	name: String!
+}
+
+type DivinationTranslateType {
+	language: String!
+	name: String!
+}
+
+type DivinationType {
+	active: Boolean!
+	created_at: String!
+	gender: GenderType!
+	id: ID!
+	translate: DivinationTranslateType!
+	translates: [DivinationTranslateType!]!
+	updated_at: String!
+	zodiac_sign: ZodiacSignType!
+}
+
+input FamilyStatusInput {
+	active: Boolean!
+	translates: [FamilyStatusTranslateInput!]!
+}
+
+input FamilyStatusTranslateInput {
+	language: String!
+	name: String!
+}
+
+type FamilyStatusTranslateType {
+	language: String!
+	name: String!
+}
+
+type FamilyStatusType {
+	active: Boolean!
+	created_at: String!
+	id: ID!
+	translate: FamilyStatusTranslateType!
+	translates: [FamilyStatusTranslateType!]!
+	updated_at: String!
+}
+
+input FaqInput {
+	sort: Int
+	translates: [FaqTranslateInput!]!
+}
+
+input FaqTranslateInput {
+	answer: String!
+	language: String!
+	question: String!
+}
+
+type FaqTranslateType {
+	"""
+	Ответ на вопрос FAQ
+	"""
+	answer: String!
+	id: ID!
+	"""
+	Язык текущего перевода.
+	"""
+	language: String!
+	"""
+	Вопрос для FAQ
+	"""
+	question: String!
+}
+
+type FaqType {
+	created_at: String!
+	id: ID!
+	"""
+	Порядок сортировки
+	"""
+	sort: Int
+	"""
+	Перевод для текущего языка Faq модели.
+	"""
+	translate: FaqTranslateType!
+	"""
+	Переводы Faq модели.
+	"""
+	translates: [FaqTranslateType!]!
+	updated_at: String!
+}
+
+type File {
+	"""
+	Название файла (с расширением).
+	"""
+	file_name: String!
+	"""
+	Уникальный идентификатор файла
+	"""
+	id: ID!
+	"""
+	Тип файла.
+	"""
+	mime_type: String
+	"""
+	Название файла (без расширения).
+	"""
+	name: String!
+	"""
+	Ссылка на оригинал файл.
+	"""
+	original_url: String
+	"""
+	Размер файла в байтах (1МБ = 1024б).
+	"""
+	size: Int!
+	"""
+	Порядок сортировки.
+	"""
+	sort: Int!
+	"""
+	Уникальный идентификатор файла (UUID)
+	"""
+	uuid: String!
+}
+
+input FileInput {
+	file: Upload!
+}
+
+enum GenderEnum {
+	female
+	male
+	other
+}
+
+input GenderInput {
+	active: Boolean!
+	translates: [GenderTranslateInput!]!
+}
+
+input GenderTranslateInput {
+	language: String!
+	name: String!
+}
+
+type GenderTranslateType {
+	language: String!
+	name: String!
+}
+
+type GenderType {
+	active: Boolean!
+	alias: GenderEnum!
+	created_at: String!
+	id: ID!
+	translate: GenderTranslateType!
+	translates: [GenderTranslateType!]!
+	updated_at: String!
+}
+
+input GlobalSettingInput {
+	fb_link: String
+	privacy_policy: String
+	privacy_policy_link: String
+	tg_link: String
+	user_agreement: String
+	user_agreement_link: String
+	whatsup_link: String
+}
+
+type GlobalSettingType {
+	created_at: String!
+	"""
+	Ссылка на фейсбук
+	"""
+	fb_link: String
+	id: ID!
+	"""
+	Политика конфиденциальности
+	"""
+	privacy_policy: String
+	"""
+	Ссылка на политику конфиденциальности
+	"""
+	privacy_policy_link: String
+	"""
+	Ссылка на телеграм
+	"""
+	tg_link: String
+	updated_at: String!
+	"""
+	Пользовательское соглашение
+	"""
+	user_agreement: String
+	"""
+	Ссылка на пользовательское соглашение
+	"""
+	user_agreement_link: String
+	"""
+	Ссылка на Whats Up
+	"""
+	whatsup_link: String
+}
+
+type GrantGroupType {
+	key: ID
+	name: String!
+	permissions: [GrantType]
+	position: Int!
+}
+
+type GrantType {
+	key: String!
+	name: String!
+	position: Int!
+}
+
+type ImportExamplesType {
+	calendar_days: String
+	divination: String
+	translations: String
+	weekly_horoscope: String
+	zodiac_compatibility: String
+	zodiac_signs: String
+}
+
+type IpAccessType {
+	active: Boolean!
+	address: String!
+	created_at: String!
+	description: String
+	id: ID!
+	updated_at: String!
+}
+
+type LanguageType {
+	name: String!
+	slug: String!
+}
+
+input LifePreferenceInput {
+	active: Boolean!
+	translates: [LifePreferenceTranslateInput!]!
+}
+
+input LifePreferenceTranslateInput {
+	language: String!
+	name: String!
+}
+
+type LifePreferenceTranslateType {
+	language: String!
+	name: String!
+}
+
+type LifePreferenceType {
+	active: Boolean!
+	created_at: String!
+	id: ID!
+	translate: LifePreferenceTranslateType!
+	translates: [LifePreferenceTranslateType!]!
+	updated_at: String!
+}
+
+input ListOfFilesInput {
+	files: [FileInput]!
+}
+
+input LookingForInput {
+	active: Boolean!
+	translates: [LookingForTranslateInput!]!
+}
+
+input LookingForTranslateInput {
+	language: String!
+	name: String!
+}
+
+type LookingForTranslateType {
+	language: String!
+	name: String!
+}
+
+type LookingForType {
+	active: Boolean!
+	created_at: String!
+	id: ID!
+	translate: LookingForTranslateType!
+	translates: [LookingForTranslateType!]!
+	updated_at: String!
+}
+
+"""
+Список типов сообщений.
+"""
+enum MessageTypeEnum {
+	danger
+	success
+	warning
+}
+
+type Mutation {
+	authViaSocial(
+		"""
+		Название устройства с какого совершается вход
+		"""
+		device_name: String!
+		"""
+		Уникальный код устройства с какого совершается вход
+		"""
+		device_number: String!
+		"""
+		Тип соц сети.
+		"""
+		provider: UserProviderEnumType!
+		"""
+		Токен авторизации, полученный от сервиса
+		"""
+		token: String!
+	): UserLoginType
+	confirmAuthCode(
+		code: String!
+		"""
+		Название устройства с какого совершается вход
+		"""
+		device_name: String!
+		"""
+		Уникальный код устройства с какого совершается вход
+		"""
+		device_number: String!
+		email: String!
+	): UserLoginType
+	confirmSubscription(data: SubscriptionInput!): Boolean!
+	fcmTokenAdd(fcm_token: String!): Boolean!
+	requestAuthCode(email: String!): Boolean!
+	setTranslation(lang: String!): Boolean
+	userBlock(block: Boolean!, user_id: ID!): Boolean!
+	"""
+	Мутация для подтверждения нового email-а
+	"""
+	userChangeEmail(
+		code: String!
+		"""
+		Новий email (той на який приходив код підтвердження)
+		"""
+		email: String!
+	): UserProfileType!
+	"""
+	Мутация для удаления аккаунта текущего пользователя
+	"""
+	userDeleteAccount: Boolean!
+	userDeletePhoto(
+		"""
+		Уникальный идентификатор файла UUID
+		"""
+		uuid: String!
+	): Boolean!
+	userDislike(user_id: ID!): Boolean!
+	userLike(user_id: ID!): Boolean!
+	userLogout: Boolean
+	userNotificationsDelete(id: ID!): Boolean!
+	userNotificationsDeleteAll: Boolean!
+	userNotificationsRead(id: ID!): Boolean!
+	userNotificationsReadAll: Boolean!
+	userRefreshToken(refresh_token: String!): UserLoginType
+	userReportCreate(report: UserReportInput!): Boolean!
+	"""
+	Запрос на смену email, на новую почту прийдет код
+	"""
+	userRequestEmailChange(
+		"""
+		Новий email на який має прийти код підтвердження
+		"""
+		email: String!
+	): Boolean!
+	userSortPhotos(
+		"""
+		Массив из id фотографий
+		"""
+		data: [ID!]!
+	): [File]!
+	"""
+	Мутация для обновления предпочитаемых способов получения уведомлений
+	"""
+	userUpdatePreferredNotifications(preferred_email: Boolean!, preferred_push: Boolean!): UserProfileType!
+	userUpdateProfile(user: UserProfileInput!): UserProfileType!
+	userUploadPhoto(
+		"""
+		Разрешенные типы файлов: png,jpg
+		"""
+		photo: FileInput!
+	): File!
+}
+
+type PaginationMeta {
+	"""
+	Current page of the cursor
+	"""
+	current_page: Int!
+	"""
+	Number of the first item returned
+	"""
+	from: Int
+	"""
+	Determines if cursor has more pages after the current page
+	"""
+	has_more_pages: Boolean!
+	"""
+	The last page (number of pages)
+	"""
+	last_page: Int!
+	"""
+	Number of items returned per page
+	"""
+	per_page: Int!
+	"""
+	Number of the last item returned
+	"""
+	to: Int
+	"""
+	Number of total items selected by the query
+	"""
+	total: Int!
+}
+
+type PermissionType {
+	id: ID! @deprecated(reason: "ID для permission запрашивать нельзя")
+	name: String
+}
+
+type Query {
+	calendarDays(
+		date_range: String
+		id: ID
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		"""
+		Аргумент сортировки. Доступные поля: id, date, created_at
+		"""
+		sort: String
+	): CalendarDayTypePagination
+	chatNewMessagesCount: Int
+	"""
+	Get room data by chat ID of the interlocutor. It's private room between authorized user and his interlocutor.
+	"""
+	chatPrivateRoom(id: ID!): ChatSimpleRoomType
+	chatUser(chat_id: ID!): UserSearchType
+	chatUserMessages(before_message_id: ID, per_page: Int!, room_id: ID!): ChatMessageTypeChatPagination
+	"""
+	Get room data by room id. Authorized user should be in this group.
+	"""
+	chatUserRoom(id: ID!): ChatSimpleRoomType
+	chatUserRooms(query: String): [ChatRoomType!]!
+	countries(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [CountryType!]!
+	defineZodiac(
+		"""
+		Дата в формате Y-m-d (пример: 2023-12-31)
+		"""
+		date: String!
+	): ZodiacSignType!
+	familyStatuses(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [FamilyStatusType!]!
+	faqs(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, sort, created_at, updated_at
+		"""
+		sort: String
+	): [FaqType!]!
+	genders(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [GenderType!]!
+	globalSettings: GlobalSettingType!
+	languages: [LanguageType]
+	lifePreferences(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [LifePreferenceType!]!
+	lookingFor(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [LookingForType!]!
+	reportReasons(
+		id: ID
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, name, created_at
+		"""
+		sort: String
+	): [ReportReasonType!]!
+	"""
+	Query для получения информации по населенным пунктам (cities, towns and villages)
+	"""
+	settlements(
+		"""
+		Country settlements
+		"""
+		country_id: ID
+		id: ID
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, active
+		"""
+		sort: String
+	): SettlementTypePagination
+	subscriptionPlans(
+		id: ID
+		query: String
+		"""
+		Аргумент сортировки. Доступные поля: id, created_at, updated_at
+		"""
+		sort: String
+	): [SubscriptionPlanType!]!
+	translatesSimple(lang: [String]!, place: [String]!): [TranslateType]
+	"""
+	Список пользователей с которыми симпатия взаимная (для текущего пользователя)
+	"""
+	userMatches(
+		life_preferences: [ID]
+		looking_for: [ID]
+		name: String
+		"""
+		Сортировка по дате лайка. Если true - будет от самых старших к самым новым.
+		"""
+		newest: Boolean = true
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		"""
+		Массив из alias zodiac signs
+		"""
+		zodiac_signs: [String]
+	): UserSearchTypePagination
+	userNotifications(
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		read: Boolean
+	): UserNotificationTypePagination
+	userNotificationsUnreadCount: Int!
+	userProfile: UserProfileType
+	userSearch(user_id: ID!): UserSearchType
+	"""
+	Список пользователей которым я ставил лайк (неважно что они поставили)
+	"""
+	usersLikedByMe(
+		life_preferences: [ID]
+		looking_for: [ID]
+		name: String
+		"""
+		Сортировка по дате лайка. Если true - будет от самых старших к самым новым.
+		"""
+		newest: Boolean = true
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		"""
+		Массив из alias zodiac signs
+		"""
+		zodiac_signs: [String]
+	): UserSearchTypePagination
+	usersSearch(
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		"""
+		Массив из alias zodiac signs
+		"""
+		zodiac_signs: [String]
+	): UserSearchTypePagination
+	"""
+	Список пользователей которые поставили лайк мне, но я еще не ответил
+	"""
+	usersWhoLikedMe(
+		life_preferences: [ID]
+		looking_for: [ID]
+		name: String
+		"""
+		Сортировка по дате лайка. Если true - будет от самых старших к самым новым.
+		"""
+		newest: Boolean = true
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+		"""
+		Массив из alias zodiac signs
+		"""
+		zodiac_signs: [String]
+	): UserSearchTypePagination
+	weeklyHoroscopes: WeeklyHoroscopeType
+}
+
+input ReportReasonInput {
+	active: Boolean!
+	translates: [ReportReasonTranslateInput!]!
+}
+
+input ReportReasonTranslateInput {
+	language: String!
+	name: String!
+}
+
+type ReportReasonTranslateType {
+	language: String!
+	name: String!
+}
+
+type ReportReasonType {
+	active: Boolean!
+	created_at: String!
+	id: ID!
+	translate: ReportReasonTranslateType!
+	translates: [ReportReasonTranslateType!]!
+	updated_at: String!
+}
+
+type ReportType {
+	created_at: String!
+	id: ID!
+	message: String
+	photo: File
+	read: Boolean!
+	reason: ReportReasonType
+	reporter: UserType!
+	updated_at: String!
+	user: UserType!
+	user_message: String
+}
+
+"""
+Сообщение для отображения на фронте.
+"""
+type ResponseMessageType {
+	message: String!
+	"""
+	Возможные варианты: success, danger, warning
+	"""
+	type: MessageTypeEnum!
+}
+
+input RoleTranslateInputType {
+	"""
+	Language
+	"""
+	language: String!
+	"""
+	Название
+	"""
+	title: String!
+}
+
+type RoleTranslateType {
+	id: ID!
+	language: String!
+	title: String!
+}
+
+type RoleType {
+	created_at: String!
+	id: ID!
+	name: String!
+	"""
+	Список возможных разрешений для текущей модели.
+	"""
+	permission: [String]
+	permissions: [PermissionType]!
+	translate: RoleTranslateType!
+	translates: [RoleTranslateType]!
+	updated_at: String!
+}
+
+type SettlementTranslate {
+	"""
+	Язык перевода
+	"""
+	language: String!
+	"""
+	Название населенного пункта
+	"""
+	title: String!
+}
+
+type SettlementType {
+	"""
+	Активна ли сущность
+	"""
+	active: Boolean!
+	"""
+	Координаты
+	"""
+	coordinates: CoordinateType!
+	country: CountryType!
+	"""
+	Уникальный идентификатор населенного пункта
+	"""
+	id: ID!
+	"""
+	Перевод для текущего языка
+	"""
+	translate: SettlementTranslate!
+	"""
+	Переводы
+	"""
+	translates: [SettlementTranslate!]!
+}
+
+type SettlementTypePagination {
+	"""
+	List of items on the current page
+	"""
+	data: [SettlementType]
+	"""
+	Pagination meta data
+	"""
+	meta: PaginationMeta!
+}
+
+"""
+Список сущностей, которые поддерживают сортировку перетаскиванием
+"""
+enum SortableModelsTypeEnum {
+	faq
+	media
+	zodiac_sign
+}
+
+type Subscription {
+	notification: ResponseMessageType
+}
+
+input SubscriptionInput {
+	platform: SubscriptionPlatformEnumType!
+	platform_package_name: String
+	platform_subscription_id: String!
+	token: String!
+}
+
+input SubscriptionPlanInput {
+	discount: Int!
+	external_shop_id: String!
+	is_default: Boolean!
+	name: String!
+	translates: [SubscriptionPlanTranslateInput!]!
+}
+
+input SubscriptionPlanTranslateInput {
+	description: String!
+	language: String!
+}
+
+type SubscriptionPlanTranslateType {
+	created_at: String!
+	"""
+	Описание тарифного плана
+	"""
+	description: String!
+	id: ID!
+	"""
+	Язык текущего перевода.
+	"""
+	language: String!
+	updated_at: String!
+}
+
+type SubscriptionPlanType {
+	created_at: String!
+	"""
+	% скидки
+	"""
+	discount: Int!
+	"""
+	Идентификатор в магазине (GooglePay|AppStore)
+	"""
+	external_shop_id: String!
+	id: ID!
+	"""
+	Является ли тарифный план превыбранным
+	"""
+	is_default: Boolean!
+	"""
+	Название подписки
+	"""
+	name: String!
+	"""
+	Перевод для текущего языка SubscriptionPlan модели.
+	"""
+	translate: SubscriptionPlanTranslateType!
+	"""
+	Переводы SubscriptionPlan модели.
+	"""
+	translates: [SubscriptionPlanTranslateType!]!
+	updated_at: String!
+}
+
+"""
+Список возможных платформ покупки подписки.
+"""
+enum SubscriptionPlatformEnumType {
+	app_store
+	google_play
+}
+
+type SubscriptionTokenType {
+	created_at: String!
+	id: ID!
+	subscription: SubscriptionType!
+	token: String!
+	updated_at: String!
+}
+
+type SubscriptionType {
+	created_at: String!
+	"""
+	Когда подписка истекает
+	"""
+	expires_at: String
+	id: ID!
+	"""
+	С какой платформы была совершена подписка
+	"""
+	platform: SubscriptionPlatformEnumType!
+	"""
+	Название с магазина
+	"""
+	platform_package_name: String
+	"""
+	Ідентифікатор підписки
+	"""
+	platform_subscription_id: String!
+	"""
+	Стоимость.
+	"""
+	price_amount: Float
+	"""
+	Валюта (3 символа, UAH).
+	"""
+	price_currency_code: String
+	"""
+	Статус подписки.
+	"""
+	status: String
+	"""
+	Тарифный план
+	"""
+	subscription_plan: SubscriptionPlanType
+	tokens: [SubscriptionTokenType!]!
+	updated_at: String!
+	user: UserProfileType!
+}
+
+type TranslateType {
+	key: String!
+	lang: String!
+	place: String!
+	text: String
+}
+
+"""
+The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
+ [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
+"""
+scalar Upload
+
+enum UserBlockingEnum {
+	by_account
+	by_device
+	not_blocked
+}
+
+input UserInput {
+	birthday: String!
+	description: String
+	email: String
+	fake: Boolean!
+	family_status_id: ID!
+	gender_id: ID!
+	is_pro: Boolean!
+	life_preferences: [ID!]!
+	looking_for: [ID!]!
+	looking_for_genders: [ID!]!
+	name: String!
+	user_settlements: [UserSettlementInput!]
+}
+
+type UserLoginType {
+	access_expires_in: Int!
+	access_token: String!
+	refresh_expires_in: Int!
+	refresh_token: String!
+	token_type: String!
+}
+
+type UserNotificationInitiatorType {
+	chat_id: ID
+	id: ID!
+	name: String!
+}
+
+type UserNotificationType {
+	body: String
+	created_at: String!
+	id: ID!
+	initiator: UserNotificationInitiatorType
+	read: Boolean!
+	title: String!
+	type: UserNotificationTypeEnumType!
+}
+
+enum UserNotificationTypeEnumType {
+	like_received
+	logged_in_from_new_device
+	new_chat_message
+	new_match
+	weekly_calendar_updated
+}
+
+type UserNotificationTypePagination {
+	"""
+	List of items on the current page
+	"""
+	data: [UserNotificationType]
+	"""
+	Pagination meta data
+	"""
+	meta: PaginationMeta!
+}
+
+"""
+Список всех возможных разрешений для типа: graph_user
+"""
+enum UserPermissionEnum {
+	role_list
+}
+
+"""
+Предпочитаемая единица измерения расстояния
+"""
+enum UserPreferredDistanceUnitEnumType {
+	km
+	mile
+}
+
+"""
+Предпочитаемый способ поиска пользователей
+"""
+enum UserPreferredSearchEnumType {
+	city
+	location
+}
+
+input UserProfileInput {
+	birthday: String!
+	coordinates: CoordinatesInput
+	description: String
+	family_status_id: ID!
+	gender_id: ID!
+	life_preferences: [ID!]!
+	looking_for: [ID!]!
+	looking_for_genders: [ID!]!
+	name: String!
+	preferred_distance: Float
+	preferred_distance_unit: UserPreferredDistanceUnitEnumType
+	preferred_search: UserPreferredSearchEnumType!
+	user_settlements: [UserSettlementInput!]
+}
+
+type UserProfileType {
+	age: Int!
+	birthday: String!
+	blocked: UserBlockingEnum
+	chat_id: ID
+	"""
+	Координаты
+	"""
+	coordinates: CoordinateType
+	description: String
+	divination: [String]!
+	email: String
+	family_status: FamilyStatusType
+	gender: GenderType
+	has_valid_subscription: Boolean!
+	he_liked_me: Boolean
+	i_liked_him: Boolean
+	id: ID!
+	lang: String
+	language: LanguageType
+	life_preferences: [LifePreferenceType!]!
+	looking_for: [LookingForType!]!
+	looking_for_genders: [GenderType!]!
+	name: String!
+	permissions: [PermissionType]
+	photos: [File]!
+	preferred_distance: Float
+	preferred_distance_unit: UserPreferredDistanceUnitEnumType
+	"""
+	Чи бажає користувач отримувати сповіщення на email
+	"""
+	preferred_email_notification: Boolean!
+	"""
+	Чи бажає користувач отримувати сповіщення через пуш
+	"""
+	preferred_push_notification: Boolean!
+	preferred_search: UserPreferredSearchEnumType
+	"""
+	Обновил ли профиль пользователь после создания аккаунта
+	"""
+	profile_updated: Boolean!
+	settlements: [SettlementType!]!
+	"""
+	Для этого поля нужно обязательно запрашивать "settlements"
+	"""
+	settlements_relation: [UserSettlementRelationType]
+	sign: String!
+	"""
+	Текущая подписка пользователя
+	"""
+	subscription: SubscriptionType
+	user_settlements: [UserSettlementsType!]!
+	zodiac: ZodiacSignType!
+	zodiac_sign: ZodiacSignEnum!
+}
+
+"""
+Список провайдеров для аутентификации через социальные сети.
+"""
+enum UserProviderEnumType {
+	apple
+	facebook
+	google
+}
+
+input UserReportInput {
+	"""
+	Сообщение того кто создает жалобу
+	"""
+	message: String
+	"""
+	Изображение пользователя на которое создается жалоба
+	"""
+	photo_id: ID
+	report_reason_id: ID!
+	"""
+	Пользователь на которого создается жалоба
+	"""
+	user_id: ID!
+	"""
+	Сообщение из чата на которое создается жалоба
+	"""
+	user_message: String
+}
+
+type UserSearchType {
+	age: Int!
+	chat_id: ID
+	description: String
+	"""
+	Расстояние от текущего местоположения (в метрах) если включен поиск по локации. Иначе null
+	"""
+	distance_to_me: Int
+	family_status: FamilyStatusType
+	gender: GenderType
+	he_liked_me: Boolean
+	i_liked_him: Boolean
+	id: ID!
+	is_pro: Boolean!
+	life_preferences: [LifePreferenceType!]!
+	looking_for: [LookingForType!]!
+	name: String!
+	photos: [File]!
+	"""
+	Город, если выбран. Если указан поиск по локации, то будет null
+	"""
+	settlement: SettlementType
+	zodiac: ZodiacSignType!
+	zodiac_sign: ZodiacSignEnum!
+}
+
+type UserSearchTypePagination {
+	"""
+	List of items on the current page
+	"""
+	data: [UserSearchType]
+	"""
+	Pagination meta data
+	"""
+	meta: PaginationMeta!
+}
+
+input UserSettlementInput {
+	active: Boolean!
+	settlement_id: ID!
+}
+
+type UserSettlementRelationType {
+	active: Boolean!
+	settlement_id: ID!
+	user_id: ID!
+}
+
+type UserSettlementsType {
+	"""
+	Помечена ли сущность как активная у текущего пользователя
+	"""
+	active: Boolean!
+	"""
+	Координаты
+	"""
+	coordinates: CoordinateType!
+	country: CountryType!
+	"""
+	Уникальный идентификатор населенного пункта
+	"""
+	id: ID!
+	"""
+	Перевод для текущего языка
+	"""
+	translate: SettlementTranslate!
+	"""
+	Переводы
+	"""
+	translates: [SettlementTranslate!]!
+}
+
+type UserType {
+	birthday: String!
+	blocked: UserBlockingEnum
+	chat_id: ID
+	created_at: String!
+	description: String
+	email: String
+	fake: Boolean!
+	family_status: FamilyStatusType
+	gender: GenderType
+	id: ID!
+	is_pro: Boolean!
+	lang: String
+	life_preferences: [LifePreferenceType!]!
+	looking_for: [LookingForType!]!
+	looking_for_genders: [GenderType!]!
+	name: String!
+	"""
+	Список возможных разрешений для текущей модели.
+	"""
+	permission: [String]
+	photos: [File]!
+	"""
+	Чи бажає користувач отримувати сповіщення на email
+	"""
+	preferred_email_notification: Boolean!
+	"""
+	Чи бажає користувач отримувати сповіщення через пуш
+	"""
+	preferred_push_notification: Boolean!
+	roles: [RoleType]
+	settlements: [SettlementType!]!
+	"""
+	Для этого поля нужно обязательно запрашивать "settlements"
+	"""
+	settlements_relation: [UserSettlementRelationType]
+	sign: String!
+	updated_at: String!
+	zodiac_sign: ZodiacSignEnum
+}
+
+input WeeklyHoroscopeInput {
+	gender_id: Int!
+	translates: [WeeklyHoroscopeTranslateInput!]!
+	zodiac_sign_id: Int!
+}
+
+input WeeklyHoroscopeTranslateInput {
+	description: String!
+	language: String!
+}
+
+type WeeklyHoroscopeTranslateType {
+	description: String!
+	language: String!
+}
+
+type WeeklyHoroscopeType {
+	created_at: String!
+	gender: GenderType!
+	id: ID!
+	translate: WeeklyHoroscopeTranslateType!
+	translates: [WeeklyHoroscopeTranslateType!]!
+	updated_at: String!
+	zodiac: ZodiacSignType!
+}
+
+input ZodiacCompatibilityInput {
+	percent: Int!
+	translates: [ZodiacCompatibilityTranslateInput!]!
+}
+
+input ZodiacCompatibilityTranslateInput {
+	language: String!
+	text: String
+}
+
+type ZodiacCompatibilityTranslateType {
+	language: String!
+	text: String
+}
+
+type ZodiacCompatibilityType {
+	first_zodiac_sign: ZodiacSignType!
+	id: ID!
+	percent: Int
+	second_zodiac_sign: ZodiacSignType!
+	translate: ZodiacCompatibilityTranslateType!
+	translates: [ZodiacCompatibilityTranslateType!]!
+}
+
+enum ZodiacSignEnum {
+	aquarius
+	aries
+	cancer
+	capricorn
+	gemini
+	leo
+	libra
+	pisces
+	sagittarius
+	scorpio
+	taurus
+	virgo
+}
+
+input ZodiacSignInput {
+	translates: [ZodiacSignTranslateInput!]!
+}
+
+input ZodiacSignTranslateInput {
+	language: String!
+	man_about: String
+	man_about_short: String
+	man_as_lover: String
+	man_as_sex_partner: String
+	man_as_spouse: String
+	man_at_work: String
+	name: String!
+	other_about: String
+	other_about_short: String
+	other_as_lover: String
+	other_as_sex_partner: String
+	other_as_spouse: String
+	other_at_work: String
+	women_about: String
+	women_about_short: String
+	women_as_lover: String
+	women_as_sex_partner: String
+	women_as_spouse: String
+	women_at_work: String
+}
+
+type ZodiacSignTranslateType {
+	language: String!
+	man_about: String
+	man_about_short: String
+	man_as_lover: String
+	man_as_sex_partner: String
+	man_as_spouse: String
+	man_at_work: String
+	name: String!
+	other_about: String
+	other_about_short: String
+	other_as_lover: String
+	other_as_sex_partner: String
+	other_as_spouse: String
+	other_at_work: String
+	women_about: String
+	women_about_short: String
+	women_as_lover: String
+	women_as_sex_partner: String
+	women_as_spouse: String
+	women_at_work: String
+}
+
+type ZodiacSignType {
+	alias: ZodiacSignEnum!
+	compatibility: [ZodiacCompatibilityType!]!
+	id: ID!
+	translate: ZodiacSignTranslateType!
+	translates: [ZodiacSignTranslateType!]!
+}

@@ -1,0 +1,1 @@
+export interface __NameMarker__Props {}

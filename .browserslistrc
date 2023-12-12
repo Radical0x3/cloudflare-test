@@ -1,0 +1,16 @@
+[production]
+chrome >= 79
+firefox >= 75
+edge >= 80
+safari >= 13
+opera >= 60
+
+[development]
+chrome >= 79
+firefox >= 75
+edge >= 80
+safari >= 13
+opera >= 60
+
+[ssr]
+node 16
