@@ -4,6 +4,10 @@ import { ErrorLayoutProps } from './types';
 import { Root, classes } from './styled';
 import { Header } from 'Components/Header';
 
+export const config = {
+	runtime: 'edge',
+};
+
 export const ErrorLayout: FC<ErrorLayoutProps> = ({ children, ...props }) => {
 	return (
 		<PageDataProvider {...props}>
