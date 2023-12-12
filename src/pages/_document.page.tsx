@@ -7,6 +7,8 @@ import { I18nService } from 'Services/I18n';
 import { createEmotionCache } from 'Services/Theme';
 import { EnhancedAppType } from './_app-types';
 
+export const runtime = 'experimental-edge';
+
 export default class MyDocument extends Document {
 	render(): ReactElement {
 		return (
