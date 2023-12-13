@@ -5,7 +5,7 @@ import { UiContainer } from 'UI/Container';
 import { Wysiwyg } from 'Components/Wysiwyg';
 
 export const WysiwygBlock: FC<WysiwygBlockProps> = ({ data }) => {
-	return (
+	return data ? (
 		<Root>
 			<UiContainer>
 				<div className={classes.container}>
@@ -13,5 +13,5 @@ export const WysiwygBlock: FC<WysiwygBlockProps> = ({ data }) => {
 				</div>
 			</UiContainer>
 		</Root>
-	);
+	) : null;
 };

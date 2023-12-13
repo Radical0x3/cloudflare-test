@@ -1,14 +1,15 @@
 import { AppPage } from 'Interfaces/AppPage';
-import { SSR, SSRPublic, SSRPublicInitProps, SSRPublicPageProps } from 'Services/ServerSide';
+import { PropsResult, SSRPublicPageProps } from 'Services/ServerSide';
 import { BaseLayout } from 'Layouts/BaseLayout';
-import { route } from './route';
 import { DownloadApp } from 'Widgets/DownloadApp';
 import { Section } from 'Components/Section';
-import { useI18n } from 'Services/I18n';
+import { I18nService, useI18n } from 'Services/I18n';
 import { TitleBlock } from 'Widgets/TitleBlock';
-import { GetPrivacyPolicyPageQuery } from 'Services/GQL';
+import { GetPrivacyPolicyPageQuery, GetPrivacyPolicyPageQueryVariables } from 'Services/GQL';
 import { GET_PRIVACY_POLICY_PAGE } from './gql';
 import { WysiwygBlock } from 'Widgets/WysiwygBlock';
+import { GetStaticPropsContext } from 'next';
+import { ApolloService } from 'Services/Apollo';
 
 type QueriedData = GetPrivacyPolicyPageQuery;
 type QueryVariables = null;
@@ -16,24 +17,30 @@ type NormalizedData = {
 	privacyPolicy: string;
 };
 
-export const runtime = 'experimental-edge';
-
-export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
-	route,
-	queryOptions: () => ({
+export const getStaticProps = async (
+	context: GetStaticPropsContext
+): Promise<
+	PropsResult<{
+		normalizedData: NormalizedData;
+	}>
+> => {
+	const language = context.locale || I18nService.DEFAULT_LOCALE;
+	const client = ApolloService.getClient({
+		language,
+		uri: process.env.GRAPHQL_API
+	});
+	const { data } = await client.query<GetPrivacyPolicyPageQuery, GetPrivacyPolicyPageQueryVariables>({
 		query: GET_PRIVACY_POLICY_PAGE
-	}),
-	normalizeData: ({ globalSettings, ...data }) => {
-		if (globalSettings.privacy_policy) {
-			return {
-				...data,
-				privacyPolicy: globalSettings.privacy_policy
-			};
-		} else {
-			return SSR.NOT_FOUND_RESULT;
+	});
+
+	return {
+		props: {
+			normalizedData: {
+				privacyPolicy: data.globalSettings.privacy_policy || ''
+			}
 		}
-	}
-}).getServerSideProps;
+	};
+};
 
 const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedData>> = ({ normalizedData }) => {
 	const i18n = useI18n();
