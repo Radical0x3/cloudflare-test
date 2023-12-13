@@ -6,6 +6,7 @@ const fromCWD = require('from-cwd');
  */
 module.exports = () => {
 	return {
+		output: 'export',
 		pageExtensions: [
 			'page.ts',
 			'page.tsx',
