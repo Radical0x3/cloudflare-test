@@ -26,8 +26,6 @@
 
 -   Add Production environment `GRAPHQL_API` - Backend GraphQL URL (see example in .env)
 -   Choose preset `Next.js`
--   Set command `pnpm run build`
--   Set output directory `out`
 
 ## Commands
 

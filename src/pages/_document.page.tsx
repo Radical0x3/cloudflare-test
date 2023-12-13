@@ -6,8 +6,6 @@ import { I18nService } from 'Services/I18n';
 import { createEmotionCache, createEmotionServer } from 'Services/Theme';
 import { EnhancedAppType } from './_app-types';
 
-export const runtime = process.env.RUNTIME;
-
 export default class MyDocument extends Document {
 	render(): ReactElement {
 		return (

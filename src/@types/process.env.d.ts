@@ -26,7 +26,5 @@ namespace NodeJS {
 		NEXT_PUBLIC_I18N_LOCALES: string;
 
 		NEXT_PUBLIC_I18N_DEFAULT_LOCALE: string;
-
-		RUNTIME: string;
 	}
 }
