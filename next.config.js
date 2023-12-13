@@ -27,6 +27,7 @@ module.exports = () => {
 		experimental: {
 			largePageDataBytes: 128 * 100000
 		},
+		distDir: 'out',
 		headers: async () => [
 			{
 				source: '/(fonts|images)/:path*',
