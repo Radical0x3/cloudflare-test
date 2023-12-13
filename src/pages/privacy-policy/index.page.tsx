@@ -16,6 +16,8 @@ type NormalizedData = {
 	privacyPolicy: string;
 };
 
+export const runtime = process.env.RUNTIME;
+
 export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
 	route,
 	queryOptions: () => ({
@@ -51,5 +53,4 @@ const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedDa
 	);
 };
 
-export const runtime = 'edge';
 export { Page as default };

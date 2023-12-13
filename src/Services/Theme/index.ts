@@ -10,3 +10,4 @@ export { jssVw };
 export * from './provider';
 export * from './themes/types';
 export * from './themes/settings';
+export * from './emotion-server';

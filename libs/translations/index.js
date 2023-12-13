@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const fromCWD = require('from-cwd');
-const unfetch = require('isomorphic-unfetch');
 const { query } = require('./query');
 const { normalize } = require('./normalize');
 const { template } = require('./template');
@@ -18,7 +17,7 @@ exports.fetch = (url = process.env.GRAPHQL_API, output = process.env.I18N_OUTPUT
 	logger.start('Generate translation keys');
 
 	if (query) {
-		return unfetch(url, {
+		return fetch(url, {
 			method: 'POST',
 			credentials: 'same-origin',
 			headers: {

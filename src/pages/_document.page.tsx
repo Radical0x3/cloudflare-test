@@ -1,11 +1,12 @@
-import createEmotionServer from '@emotion/server/create-instance';
 import { NProgressStyle } from 'Components/NProgressStyle';
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import React, { ReactElement } from 'react';
 import { DataService } from 'Services/Data';
 import { I18nService } from 'Services/I18n';
-import { createEmotionCache } from 'Services/Theme';
+import { createEmotionCache, createEmotionServer } from 'Services/Theme';
 import { EnhancedAppType } from './_app-types';
+
+export const runtime = process.env.RUNTIME;
 
 export default class MyDocument extends Document {
 	render(): ReactElement {

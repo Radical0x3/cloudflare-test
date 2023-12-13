@@ -1,5 +1,4 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import fetch from 'isomorphic-unfetch';
 import { createUploadLink } from 'apollo-upload-client';
 import { I18nService } from 'Services/I18n';
 import { RenderService } from 'Services/Render';

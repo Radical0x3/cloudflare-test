@@ -6,7 +6,7 @@ export const HTMLHead: FC = (props) => {
 	const pageData = usePageDataContext();
 	const title = pageData.htmlTitle || 'Lynq Dating';
 	const description = pageData.description || 'Lynq Dating';
-	const image = pageData.image || `${process.env.NEXT_PUBLIC_APP_URL}/images/og-image.jpg`;
+	const image = pageData.image || '/images/og-image.jpg';
 
 	return (
 		<Head>

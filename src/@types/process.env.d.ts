@@ -9,15 +9,7 @@ namespace NodeJS {
 
 		NODE_ENV: string;
 
-		NEXT_PUBLIC_APP_HTTPS: string;
-
 		NEXT_PUBLIC_ENABLE_DEV_TOOLS: string;
-
-		NEXT_PUBLIC_APP_URL: string;
-
-		NEXT_PUBLIC_ENABLE_CLASS_NAMES_HASHING: string;
-
-		NEXT_PUBLIC_ENABLE_DESIGN_TOKENS_HASHING: string;
 
 		GRAPHQL_API: string;
 
@@ -34,5 +26,7 @@ namespace NodeJS {
 		NEXT_PUBLIC_I18N_LOCALES: string;
 
 		NEXT_PUBLIC_I18N_DEFAULT_LOCALE: string;
+
+		RUNTIME: string;
 	}
 }
