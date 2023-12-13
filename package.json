@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@cloudflare/next-on-pages": "^1.7.2",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
@@ -106,7 +107,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
-    "@cloudflare/next-on-pages": "^1.8.2",
     "@graphql-codegen/cli": "^5.0.0",
     "@mui/types": "^7.2.4",
     "@testing-library/jest-dom": "^5.16.5",
@@ -151,7 +151,7 @@
     "through": "^2.3.8",
     "ts-jest": "^27.0.7",
     "typescript": "^5.0.4",
-    "vercel": "^32.7.0",
+    "vercel": "^32.5.0",
     "yargs": "^17.4.1"
   }
 }
