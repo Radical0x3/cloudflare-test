@@ -5,8 +5,6 @@ import { Root, classes } from './styled';
 import { Header } from 'Components/Header';
 import { Footer } from 'Components/Footer';
 
-export const runtime = 'edge';
-
 export const BaseLayout: FC<BaseLayoutProps> = ({ children, ...props }) => {
 	return (
 		<PageDataProvider {...props}>

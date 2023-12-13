@@ -45,3 +45,7 @@ const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedDa
 };
 
 export { Page as default };
+
+export const config = {
+	runtime: 'experimental-edge'
+};
