@@ -6,18 +6,17 @@ const fromCWD = require('from-cwd');
  */
 module.exports = () => {
 	return {
-		output: 'export',
 		pageExtensions: [
 			'page.ts',
 			'page.tsx',
 			process.env.NEXT_PUBLIC_ENABLE_DEV_PAGES === '1' ? 'page-dev.ts' : null,
 			process.env.NEXT_PUBLIC_ENABLE_DEV_PAGES === '1' ? 'page-dev.tsx' : null
 		].filter(Boolean),
-		// i18n: {
-		// 	locales: process.env.NEXT_PUBLIC_I18N_LOCALES.split(','),
-		// 	defaultLocale: process.env.NEXT_PUBLIC_I18N_DEFAULT_LOCALE,
-		// 	localeDetection: false
-		// },
+		i18n: {
+			locales: process.env.NEXT_PUBLIC_I18N_LOCALES.split(','),
+			defaultLocale: process.env.NEXT_PUBLIC_I18N_DEFAULT_LOCALE,
+			localeDetection: false
+		},
 		sassOptions: {
 			includePaths: ['./node_modules']
 		},
