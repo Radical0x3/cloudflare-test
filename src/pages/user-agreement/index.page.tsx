@@ -1,14 +1,15 @@
 import { AppPage } from 'Interfaces/AppPage';
-import { SSR, SSRPublic, SSRPublicInitProps, SSRPublicPageProps } from 'Services/ServerSide';
+import { PropsResult, SSRPublicPageProps } from 'Services/ServerSide';
 import { BaseLayout } from 'Layouts/BaseLayout';
-import { route } from './route';
-import { GetUserAgreementPageQuery } from 'Services/GQL';
+import { GetUserAgreementPageQuery, GetUserAgreementPageQueryVariables } from 'Services/GQL';
 import { GET_USER_AGREEMENT_PAGE } from './gql';
-import { useI18n } from 'Services/I18n';
+import { I18nService, useI18n } from 'Services/I18n';
 import { Section } from 'Components/Section';
 import { TitleBlock } from 'Widgets/TitleBlock';
 import { DownloadApp } from 'Widgets/DownloadApp';
 import { WysiwygBlock } from 'Widgets/WysiwygBlock';
+import { ApolloService } from 'Services/Apollo';
+import { GetStaticPropsContext } from 'next';
 
 type QueriedData = GetUserAgreementPageQuery;
 type QueryVariables = null;
@@ -16,30 +17,36 @@ type NormalizedData = {
 	userAgreement: string;
 };
 
-export const runtime = 'experimental-edge';
-
-export const getServerSideProps = new SSRPublic<SSRPublicInitProps<QueriedData, QueryVariables, NormalizedData>>({
-	route,
-	queryOptions: () => ({
+export const getStaticProps = async (
+	context: GetStaticPropsContext
+): Promise<
+	PropsResult<{
+		normalizedData: NormalizedData;
+	}>
+> => {
+	const language = context.locale || I18nService.DEFAULT_LOCALE;
+	const client = ApolloService.getClient({
+		language,
+		uri: process.env.GRAPHQL_API
+	});
+	const { data } = await client.query<GetUserAgreementPageQuery, GetUserAgreementPageQueryVariables>({
 		query: GET_USER_AGREEMENT_PAGE
-	}),
-	normalizeData: ({ globalSettings, ...data }) => {
-		if (globalSettings.user_agreement) {
-			return {
-				...data,
-				userAgreement: globalSettings.user_agreement
-			};
-		} else {
-			return SSR.NOT_FOUND_RESULT;
+	});
+
+	return {
+		props: {
+			normalizedData: {
+				userAgreement: data.globalSettings.user_agreement || ''
+			}
 		}
-	}
-}).getServerSideProps;
+	};
+};
 
 const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedData>> = ({ normalizedData }) => {
 	const i18n = useI18n();
 
 	return (
-		<BaseLayout htmlTitle={i18n('user-agreement__page-title')} {...(normalizedData || {})}>
+		<BaseLayout htmlTitle={i18n('user-agreement__page-title')}>
 			<Section>
 				<TitleBlock title={i18n('user-agreement__title')} subtitle={i18n('user-agreement__subtitle')} />
 			</Section>

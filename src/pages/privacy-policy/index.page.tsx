@@ -39,7 +39,7 @@ const Page: AppPage<SSRPublicPageProps<QueriedData, QueryVariables, NormalizedDa
 	const i18n = useI18n();
 
 	return (
-		<BaseLayout htmlTitle={i18n('privacy-policy__page-title')} {...(normalizedData || {})}>
+		<BaseLayout htmlTitle={i18n('privacy-policy__page-title')}>
 			<Section>
 				<TitleBlock title={i18n('privacy-policy__title')} subtitle={i18n('privacy-policy__subtitle')} />
 			</Section>

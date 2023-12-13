@@ -35,7 +35,8 @@ export const EN = {
 	'user-agreement__title': 'Terms of Use',
 	'user-agreement__subtitle':
 		'LYNQ (limited liability), represented by its managing director, CompanyName. 20, 99099 CityName (hereinafter referred to as "Provider") for the use of Lynq App.',
-	error__title: 'Error',
+	'error-404__title': 'Error 404',
+	'error-500__title': 'Error 500',
 	'error-block__title': 'Oops! Something went wrong.',
 	'error-block__button-link': 'Return to main page'
 };
