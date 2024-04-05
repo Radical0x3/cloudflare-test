@@ -58,7 +58,7 @@ export const MainMenu: FC<MainMenuProps> = () => {
 									}}
 									className={classes.item}
 								>
-									{i18n('main-menu__features')}
+									{i18n('main-menu__functions')}
 								</UiLinkUnstyled>
 							) : (
 								<UiTypography

@@ -1,7 +1,34 @@
 schema {
 	query: Query
 	mutation: Mutation
-	subscription: Subscription
+}
+
+type ActiveSubscriptionType {
+	"""
+	Email пользователя
+	"""
+	email: String!
+	"""
+	До какого времени подписка активная, null для isPro (manual)
+	"""
+	end_at: String
+	id: ID!
+	"""
+	Название подписки
+	"""
+	name: String
+	"""
+	С какого момента подписка активная
+	"""
+	started_at: String!
+	"""
+	Тип підписки
+	"""
+	type: SubscriptionTypeEnumType!
+	"""
+	Имя пользователя
+	"""
+	username: String!
 }
 
 input AdminInput {
@@ -60,6 +87,7 @@ enum AdminPermissionEnum {
 	gender_list
 	gender_select_list
 	gender_update
+	global_setting_create
 	global_setting_list
 	global_setting_update
 	ip_access_create
@@ -94,6 +122,8 @@ enum AdminPermissionEnum {
 	subscription_plan_delete
 	subscription_plan_list
 	subscription_plan_update
+	subscriptions_delete
+	subscriptions_list
 	translate_delete
 	translate_list
 	translate_update
@@ -169,6 +199,41 @@ type AlertMessageType {
 	Возможные варианты: success, danger, warning
 	"""
 	type: MessageTypeEnum!
+}
+
+enum AnalyticsCalendarPageTypeEnum {
+	month
+	week
+}
+
+enum AnalyticsEventTypeForRegistrationEnumType {
+	registration_birthday
+	registration_code
+	registration_complete
+	registration_family_status
+	registration_hobbies
+	registration_location
+	registration_looking_for
+	registration_looking_for_gender
+	registration_name_and_gender
+	registration_photo
+	registration_profile_description
+}
+
+enum AnalyticsNavMenuItemEnum {
+	calendar
+	edit_profile
+	messages
+	notification
+	paywall
+	profile
+	swipe
+}
+
+enum AnalyticsPaywallClickFromEnum {
+	calendar
+	matches
+	profile
 }
 
 union Authenticatable = AdminType | UserType
@@ -505,47 +570,39 @@ type GenderType {
 }
 
 input GlobalSettingInput {
-	fb_link: String
-	privacy_policy: String
-	privacy_policy_link: String
-	tg_link: String
-	user_agreement: String
-	user_agreement_link: String
-	whatsup_link: String
+	alias: GlobalSettingsAliasEnumType!
+	group: GlobalSettingsGroupEnumType!
+	value: String
 }
 
 type GlobalSettingType {
-	created_at: String!
-	"""
-	Ссылка на фейсбук
-	"""
-	fb_link: String
+	alias: GlobalSettingsAliasEnumType!
+	group: GlobalSettingsGroupEnumType!
 	id: ID!
-	"""
-	Политика конфиденциальности
-	"""
-	privacy_policy: String
-	"""
-	Ссылка на политику конфиденциальности
-	"""
-	privacy_policy_link: String
-	"""
-	Ссылка на телеграм
-	"""
-	tg_link: String
-	updated_at: String!
-	"""
-	Пользовательское соглашение
-	"""
-	user_agreement: String
-	"""
-	Ссылка на пользовательское соглашение
-	"""
-	user_agreement_link: String
-	"""
-	Ссылка на Whats Up
-	"""
-	whatsup_link: String
+	value: String
+}
+
+"""
+Список доступних alias.
+"""
+enum GlobalSettingsAliasEnumType {
+	fb_link
+	free_pro_for_new_users
+	instagram_link
+	privacy_policy
+	privacy_policy_link
+	tg_link
+	user_agreement
+	user_agreement_link
+}
+
+"""
+Список доступних груп.
+"""
+enum GlobalSettingsGroupEnumType {
+	links
+	pages
+	subscriptions
 }
 
 type GrantGroupType {
@@ -657,6 +714,15 @@ type MobileTranslationType {
 }
 
 type Mutation {
+	analyticsCalendar(
+		"""
+		Выбрали они вид недели или месяца
+		"""
+		page: AnalyticsCalendarPageTypeEnum!
+	): Boolean!
+	analyticsGeolocation(always: Boolean!, denied: Boolean!, while_using: Boolean!): Boolean!
+	analyticsNavMenuClick(nav_menu_item: AnalyticsNavMenuItemEnum!): Boolean!
+	analyticsPaywall(click_from: AnalyticsPaywallClickFromEnum!): Boolean!
 	authViaSocial(
 		"""
 		Название устройства с какого совершается вход
@@ -676,6 +742,9 @@ type Mutation {
 		token: String!
 	): UserLoginType
 	confirmAuthCode(
+		"""
+		Код отправленый на почту
+		"""
 		code: String!
 		"""
 		Название устройства с какого совершается вход
@@ -685,12 +754,38 @@ type Mutation {
 		Уникальный код устройства с какого совершается вход
 		"""
 		device_number: String!
+		"""
+		Email на который был отправлен код
+		"""
 		email: String!
 	): UserLoginType
 	confirmSubscription(data: SubscriptionInput!): Boolean!
 	fcmTokenAdd(fcm_token: String!): Boolean!
-	requestAuthCode(email: String!): Boolean!
+	requestAuthCode(
+		"""
+		Название устройства с какого совершается вход
+		"""
+		device_name: String!
+		"""
+		Уникальный код устройства с какого совершается вход
+		"""
+		device_number: String!
+		"""
+		Email на который нужно отправить код
+		"""
+		email: String!
+	): Boolean!
 	setTranslation(lang: String!): Boolean
+	triggerAnalyticsEvent(
+		"""
+		Емейл пользователя
+		"""
+		email: String
+		"""
+		Тип события, которое необходимо сгенерировать
+		"""
+		event_type: AnalyticsEventTypeForRegistrationEnumType!
+	): Boolean!
 	userBlock(block: Boolean!, user_id: ID!): Boolean!
 	"""
 	Мутация для подтверждения нового email-а
@@ -702,6 +797,7 @@ type Mutation {
 		"""
 		email: String!
 	): UserProfileType!
+	userCheckLikes: Boolean!
 	"""
 	Мутация для удаления аккаунта текущего пользователя
 	"""
@@ -713,13 +809,26 @@ type Mutation {
 		uuid: String!
 	): Boolean!
 	userDislike(user_id: ID!): Boolean!
+	"""
+	Мутация для удаления аккаунта текущего пользователя (принудительно)
+	"""
+	userForceDeleteAccount: Boolean!
 	userLike(user_id: ID!): Boolean!
-	userLogout: Boolean
+	userLogout: Boolean!
 	userNotificationsDelete(id: ID!): Boolean!
 	userNotificationsDeleteAll: Boolean!
 	userNotificationsRead(id: ID!): Boolean!
 	userNotificationsReadAll: Boolean!
-	userRefreshToken(refresh_token: String!): UserLoginType
+	"""
+	Отписка пользователя от уведомлений на почту
+	"""
+	userNotificationsUnsubscribe(
+		"""
+		Токен отправленный на почту
+		"""
+		token: String!
+	): Boolean!
+	userRefreshToken(refresh_token: String!): UserLoginType!
 	userReportCreate(report: UserReportInput!): Boolean!
 	"""
 	Запрос на смену email, на новую почту прийдет код
@@ -736,6 +845,7 @@ type Mutation {
 		"""
 		data: [ID!]!
 	): [File]!
+	userUnMatch(user_id: ID!): Boolean!
 	"""
 	Мутация для обновления предпочитаемых способов получения уведомлений
 	"""
@@ -786,6 +896,14 @@ type PermissionType {
 }
 
 type Query {
+	blockedUsers(
+		page: Int
+		"""
+		Maximum value 1500
+		"""
+		per_page: Int
+	): UserSearchTypePagination
+	blockedUsersCount: Int!
 	calendarDays(
 		date_range: String
 		id: ID
@@ -849,7 +967,11 @@ type Query {
 		"""
 		sort: String
 	): [GenderType!]!
-	globalSettings: GlobalSettingType!
+	globalSettings(alias: String, aliases: [String], group: String, groups: [String]): [GlobalSettingType!]!
+	"""
+	Проверяем был ли вход в приложение с устройства, даже не зарегистрированным пользователем
+	"""
+	hadActivityViaDevice(device_number: String!): Boolean!
 	languages: [LanguageType]
 	lifePreferences(
 		id: ID
@@ -867,6 +989,10 @@ type Query {
 		"""
 		sort: String
 	): [LookingForType!]!
+	"""
+	Проверяем была ли завершена регистрация в приложении с устройства
+	"""
+	onboardingCompletedViaDevice(device_number: String!): Boolean!
 	reportReasons(
 		id: ID
 		page: Int
@@ -908,9 +1034,13 @@ type Query {
 		"""
 		sort: String
 	): [SubscriptionPlanType!]!
-	translatesSimple(lang: [String]!, place: [String]!): [TranslateType]
+	translatesSimple(lang: [String]!, place: [String]!): [SimpleTranslateType]
 	translations(lang: String!): [MobileTranslationType!]!
 	translationsHash(lang: String!): String!
+	"""
+	Есть ли у пользователя непросмотренные лайки
+	"""
+	userHasUnreadLikes: Boolean!
 	"""
 	Список пользователей с которыми симпатия взаимная (для текущего пользователя)
 	"""
@@ -996,6 +1126,10 @@ type Query {
 		"""
 		zodiac_signs: [String]
 	): UserSearchTypePagination
+	"""
+	Количество пользователей которые поставили лайк мне
+	"""
+	usersWhoLikedMeCount: Int!
 	weeklyHoroscopes: WeeklyHoroscopeType
 }
 
@@ -1124,6 +1258,13 @@ type SettlementTypePagination {
 	meta: PaginationMeta!
 }
 
+type SimpleTranslateType {
+	key: String!
+	lang: String!
+	place: String!
+	text: String
+}
+
 """
 Список сущностей, которые поддерживают сортировку перетаскиванием
 """
@@ -1133,15 +1274,20 @@ enum SortableModelsTypeEnum {
 	zodiac_sign
 }
 
-type Subscription {
-	notification: ResponseMessageType
-}
-
 input SubscriptionInput {
 	platform: SubscriptionPlatformEnumType!
 	platform_package_name: String
 	platform_subscription_id: String!
 	token: String!
+}
+
+"""
+Список возможных значений периода.
+"""
+enum SubscriptionPeriodIntervalEnumType {
+	day
+	month
+	year
 }
 
 input SubscriptionPlanInput {
@@ -1225,6 +1371,14 @@ type SubscriptionType {
 	expires_at: String
 	id: ID!
 	"""
+	Значение параметра периода
+	"""
+	period_count: Int
+	"""
+	Название параметра периода
+	"""
+	period_name: SubscriptionPeriodIntervalEnumType
+	"""
 	С какой платформы была совершена подписка
 	"""
 	platform: SubscriptionPlatformEnumType!
@@ -1257,7 +1411,18 @@ type SubscriptionType {
 	user: UserProfileType!
 }
 
+"""
+Список возможных значений периода.
+"""
+enum SubscriptionTypeEnumType {
+	manual
+	promotion
+	store
+}
+
 type TranslateType {
+	id: ID!
+	images: [File]!
 	key: String!
 	lang: String!
 	place: String!
@@ -1320,6 +1485,11 @@ enum UserNotificationTypeEnumType {
 	logged_in_from_new_device
 	new_chat_message
 	new_match
+	new_users_nearby
+	received_free_pro
+	registration_not_completed
+	user_has_not_logged_into_app_for_3_days
+	user_has_not_logged_into_app_for_10_days
 	weekly_calendar_updated
 }
 
@@ -1387,6 +1557,7 @@ type UserProfileType {
 	email: String
 	family_status: FamilyStatusType
 	gender: GenderType
+	has_fcm_token: Boolean!
 	has_valid_subscription: Boolean!
 	he_liked_me: Boolean
 	i_liked_him: Boolean
@@ -1560,6 +1731,7 @@ type UserType {
 	Чи бажає користувач отримувати сповіщення через пуш
 	"""
 	preferred_push_notification: Boolean!
+	preferred_search: UserPreferredSearchEnumType
 	roles: [RoleType]
 	settlements: [SettlementType!]!
 	"""
@@ -1567,12 +1739,18 @@ type UserType {
 	"""
 	settlements_relation: [UserSettlementRelationType]
 	sign: String!
+	"""
+	Текущая подписка пользователя
+	"""
+	subscription: SubscriptionType
 	updated_at: String!
 	zodiac_sign: ZodiacSignEnum
 }
 
 input WeeklyHoroscopeInput {
+	from: String!
 	gender_id: Int!
+	to: String!
 	translates: [WeeklyHoroscopeTranslateInput!]!
 	zodiac_sign_id: Int!
 }
@@ -1589,8 +1767,10 @@ type WeeklyHoroscopeTranslateType {
 
 type WeeklyHoroscopeType {
 	created_at: String!
+	from: String
 	gender: GenderType!
 	id: ID!
+	to: String
 	translate: WeeklyHoroscopeTranslateType!
 	translates: [WeeklyHoroscopeTranslateType!]!
 	updated_at: String!

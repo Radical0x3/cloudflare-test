@@ -22,7 +22,7 @@ export const HTMLHead: FC = (props) => {
 			<link rel={'manifest'} href={'/favicons/site.webmanifest'} />
 			<link rel={'mask-icon'} href={'/favicons/safari-pinned-tab.svg'} color={'#141414'} />
 			<meta name={'msapplication-TileColor'} content={'#da532c'} />
-			<meta name={'theme-color'} content={'#ffffff'} />
+			<meta name={'theme-color'} content={'#597EFF'} />
 			<link rel={'icon'} type={'image/x-icon'} href={'/favicons/favicon.ico'} />
 			<meta name={'msapplication-config'} content={'/favicons/browserconfig.xml'} />
 

@@ -3,14 +3,14 @@ import { Root, classes } from './styled';
 import { HomeTitleProps } from './types';
 import { UiContainer } from 'UI/Container';
 import { useI18n } from 'Services/I18n';
-import { UiImg } from 'UI/Img';
 import { UiGrid } from 'UI/Grid';
 import { UiGridItem } from 'UI/GridItem';
 import { UiTypography } from 'UI/Typography';
-import { UiButton } from 'UI/Button';
 import { HomeDecor } from './components/HomeDecor';
 import { useInView } from 'react-intersection-observer';
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from 'Constants/index';
+import { GooglePlayButton } from 'Components/GooglePlayButton';
+import { AppStoreButton } from 'Components/AppStoreButton';
 
 export const HomeTitle: FC<HomeTitleProps> = () => {
 	const i18n = useI18n();
@@ -50,38 +50,16 @@ export const HomeTitle: FC<HomeTitleProps> = () => {
 									{i18n('home-title__subtitle')}
 								</UiTypography>
 								<UiGrid spacing={{ xs: 2, lg: 4 }} justifyContent={{ xs: 'center', md: 'flex-start' }}>
-									<UiGridItem xs={12} sm={'auto'} md={6} xl={'auto'}>
-										<UiButton
-											size={'large'}
-											color={'secondary'}
-											fullWidth={true}
-											href={APP_STORE_URL}
-											target={'_blank'}
-										>
-											<UiImg
-												src={'/images/app-store.svg'}
-												width={152}
-												height={50}
-												alt={'Download on the App Store'}
-											/>
-										</UiButton>
-									</UiGridItem>
-									<UiGridItem xs={12} sm={'auto'} md={6} xl={'auto'}>
-										<UiButton
-											size={'large'}
-											color={'secondary'}
-											fullWidth={true}
-											href={GOOGLE_PLAY_URL}
-											target={'_blank'}
-										>
-											<UiImg
-												src={'/images/google-play.svg'}
-												width={155}
-												height={50}
-												alt={'Get it on Google Play'}
-											/>
-										</UiButton>
-									</UiGridItem>
+									{APP_STORE_URL ? (
+										<UiGridItem xs={12} sm={'auto'} md={6} xl={'auto'}>
+											<AppStoreButton />
+										</UiGridItem>
+									) : null}
+									{GOOGLE_PLAY_URL ? (
+										<UiGridItem xs={12} sm={'auto'} md={6} xl={'auto'}>
+											<GooglePlayButton />
+										</UiGridItem>
+									) : null}
 								</UiGrid>
 							</UiGridItem>
 						</UiGrid>

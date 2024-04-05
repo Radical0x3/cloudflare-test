@@ -8,6 +8,7 @@ export const classes = {
 
 export const Root = styled('div', { label: classes.root })`
 	padding: 32px 0 25px;
+	min-height: 275px;
 	margin-top: -1px;
 	position: relative;
 	overflow-x: hidden;
@@ -18,10 +19,12 @@ export const Root = styled('div', { label: classes.root })`
 
 	@media (min-width: ${({ theme }) => theme.breakpoints.values.md}px) {
 		padding: 60px 0;
+		min-height: 445px;
 	}
 
 	@media (min-width: ${({ theme }) => theme.breakpoints.values.lg}px) {
 		padding: 70px 0;
+		min-height: 573px;
 	}
 
 	@media (min-width: ${({ theme }) => theme.breakpoints.values.xl}px) {
@@ -55,6 +58,9 @@ export const Root = styled('div', { label: classes.root })`
 
 		@media (min-width: ${({ theme }) => theme.breakpoints.values.md}px) {
 			margin: 0 -140px;
+		}
+
+		@media (min-width: ${({ theme }) => theme.breakpoints.values.lg}px) {
 		}
 	}
 

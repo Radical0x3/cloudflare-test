@@ -5,7 +5,11 @@ import { DownloadApp } from 'Widgets/DownloadApp';
 import { Section } from 'Components/Section';
 import { I18nService, useI18n } from 'Services/I18n';
 import { TitleBlock } from 'Widgets/TitleBlock';
-import { GetPrivacyPolicyPageQuery, GetPrivacyPolicyPageQueryVariables } from 'Services/GQL';
+import {
+	GetPrivacyPolicyPageQuery,
+	GetPrivacyPolicyPageQueryVariables,
+	GlobalSettingsAliasEnumType
+} from 'Services/GQL';
 import { GET_PRIVACY_POLICY_PAGE } from './gql';
 import { WysiwygBlock } from 'Widgets/WysiwygBlock';
 import { GetStaticPropsContext } from 'next';
@@ -32,11 +36,12 @@ export const getStaticProps = async (
 	const { data } = await client.query<GetPrivacyPolicyPageQuery, GetPrivacyPolicyPageQueryVariables>({
 		query: GET_PRIVACY_POLICY_PAGE
 	});
+	const privacyPolicy = data.globalSettings.find(({ alias }) => alias === GlobalSettingsAliasEnumType.PrivacyPolicy);
 
 	return {
 		props: {
 			normalizedData: {
-				privacyPolicy: data.globalSettings.privacy_policy || ''
+				privacyPolicy: privacyPolicy?.value || ''
 			}
 		}
 	};

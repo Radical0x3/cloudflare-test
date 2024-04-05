@@ -3,4 +3,5 @@
 
 export { route as _homepage } from 'pages/route';
 export { route as privacyPolicy } from 'pages/privacy-policy/route';
+export { route as unsubscribe } from 'pages/unsubscribe/route';
 export { route as userAgreement } from 'pages/user-agreement/route';

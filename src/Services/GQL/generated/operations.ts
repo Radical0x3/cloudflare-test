@@ -1,12 +1,20 @@
 import type {
 	AdminPermissionEnum,
 	AlertEnumType,
+	AnalyticsCalendarPageTypeEnum,
+	AnalyticsEventTypeForRegistrationEnumType,
+	AnalyticsNavMenuItemEnum,
+	AnalyticsPaywallClickFromEnum,
 	CalendarDayForDateEnum,
 	CurrencyEnumType,
 	GenderEnum,
+	GlobalSettingsAliasEnumType,
+	GlobalSettingsGroupEnumType,
 	MessageTypeEnum,
 	SortableModelsTypeEnum,
+	SubscriptionPeriodIntervalEnumType,
 	SubscriptionPlatformEnumType,
+	SubscriptionTypeEnumType,
 	UserBlockingEnum,
 	UserNotificationTypeEnumType,
 	UserPermissionEnum,
@@ -126,14 +134,14 @@ export interface GenderTranslateInput {
 }
 
 export interface GlobalSettingInput {
-	fb_link?: InputMaybe<Scalars['String']['input']>;
-	privacy_policy?: InputMaybe<Scalars['String']['input']>;
-	privacy_policy_link?: InputMaybe<Scalars['String']['input']>;
-	tg_link?: InputMaybe<Scalars['String']['input']>;
-	user_agreement?: InputMaybe<Scalars['String']['input']>;
-	user_agreement_link?: InputMaybe<Scalars['String']['input']>;
-	whatsup_link?: InputMaybe<Scalars['String']['input']>;
+	alias: GlobalSettingsAliasEnumType;
+	group: GlobalSettingsGroupEnumType;
+	value?: InputMaybe<Scalars['String']['input']>;
 }
+
+/** Список доступних alias. */
+
+/** Список доступних груп. */
 
 export interface LifePreferenceInput {
 	active: Scalars['Boolean']['input'];
@@ -187,6 +195,8 @@ export interface SubscriptionInput {
 	token: Scalars['String']['input'];
 }
 
+/** Список возможных значений периода. */
+
 export interface SubscriptionPlanInput {
 	discount: Scalars['Int']['input'];
 	external_shop_id: Scalars['String']['input'];
@@ -201,6 +211,8 @@ export interface SubscriptionPlanTranslateInput {
 }
 
 /** Список возможных платформ покупки подписки. */
+
+/** Список возможных значений периода. */
 
 export interface UserInput {
 	birthday: Scalars['String']['input'];
@@ -259,7 +271,9 @@ export interface UserSettlementInput {
 }
 
 export interface WeeklyHoroscopeInput {
+	from: Scalars['String']['input'];
 	gender_id: Scalars['Int']['input'];
+	to: Scalars['String']['input'];
 	translates: Array<WeeklyHoroscopeTranslateInput>;
 	zodiac_sign_id: Scalars['Int']['input'];
 }
@@ -306,16 +320,42 @@ export interface ZodiacSignTranslateInput {
 	women_at_work?: InputMaybe<Scalars['String']['input']>;
 }
 
+export type GlobalSettingsFragmentFragment = {
+	__typename?: 'GlobalSettingType';
+	id: string;
+	alias: GlobalSettingsAliasEnumType;
+	value?: string | null;
+	group: GlobalSettingsGroupEnumType;
+};
+
+export type UserUnsubscribeMutationVariables = Exact<{
+	token: Scalars['String']['input'];
+}>;
+
+export type UserUnsubscribeMutation = { __typename?: 'Mutation'; userNotificationsUnsubscribe: boolean };
+
 export type GetPrivacyPolicyPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetPrivacyPolicyPageQuery = {
 	__typename?: 'Query';
-	globalSettings: { __typename?: 'GlobalSettingType'; privacy_policy?: string | null };
+	globalSettings: Array<{
+		__typename?: 'GlobalSettingType';
+		id: string;
+		alias: GlobalSettingsAliasEnumType;
+		value?: string | null;
+		group: GlobalSettingsGroupEnumType;
+	}>;
 };
 
 export type GetUserAgreementPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserAgreementPageQuery = {
 	__typename?: 'Query';
-	globalSettings: { __typename?: 'GlobalSettingType'; user_agreement?: string | null };
+	globalSettings: Array<{
+		__typename?: 'GlobalSettingType';
+		id: string;
+		alias: GlobalSettingsAliasEnumType;
+		value?: string | null;
+		group: GlobalSettingsGroupEnumType;
+	}>;
 };

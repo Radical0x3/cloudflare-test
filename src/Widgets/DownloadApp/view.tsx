@@ -6,10 +6,11 @@ import { useI18n } from 'Services/I18n';
 import { UiGrid } from 'UI/Grid';
 import { UiGridItem } from 'UI/GridItem';
 import { UiTypography } from 'UI/Typography';
-import { UiButton } from 'UI/Button';
 import { UiImg } from 'UI/Img';
 import { UiBox } from 'UI/Box';
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from 'Constants/index';
+import { GooglePlayButton } from 'Components/GooglePlayButton';
+import { AppStoreButton } from 'Components/AppStoreButton';
 
 export const DownloadApp: FC<DownloadAppProps> = () => {
 	const i18n = useI18n();
@@ -31,38 +32,16 @@ export const DownloadApp: FC<DownloadAppProps> = () => {
 						</UiGridItem>
 					</UiGrid>
 					<UiGrid spacing={{ xs: 2, md: 4 }} justifyContent={'center'} pt={{ xs: 1, md: 2 }}>
-						<UiGridItem xs={12} sm={'auto'}>
-							<UiButton
-								size={'large'}
-								color={'secondary'}
-								fullWidth={true}
-								href={APP_STORE_URL}
-								target={'_blank'}
-							>
-								<UiImg
-									src={'/images/app-store.svg'}
-									width={152}
-									height={50}
-									alt={'Download on the App Store'}
-								/>
-							</UiButton>
-						</UiGridItem>
-						<UiGridItem xs={12} sm={'auto'}>
-							<UiButton
-								size={'large'}
-								color={'secondary'}
-								fullWidth={true}
-								href={GOOGLE_PLAY_URL}
-								target={'_blank'}
-							>
-								<UiImg
-									src={'/images/google-play.svg'}
-									width={155}
-									height={50}
-									alt={'Get it on Google Play'}
-								/>
-							</UiButton>
-						</UiGridItem>
+						{APP_STORE_URL ? (
+							<UiGridItem xs={12} sm={'auto'}>
+								<AppStoreButton />
+							</UiGridItem>
+						) : null}
+						{GOOGLE_PLAY_URL ? (
+							<UiGridItem xs={12} sm={'auto'}>
+								<GooglePlayButton />
+							</UiGridItem>
+						) : null}
 					</UiGrid>
 					<div className={classes.imageContainer}>
 						<UiImg

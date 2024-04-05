@@ -23,28 +23,28 @@ export const HomeFeatures: FC<HomeFeaturesProps> = () => {
 			icon: <Planet1Icon />
 		},
 		{
-			title: i18n('home-features__feature1-title'),
-			text: i18n('home-features__feature1-text'),
+			title: i18n('home-features__feature2-title'),
+			text: i18n('home-features__feature2-text'),
 			icon: <Planet2Icon />
 		},
 		{
-			title: i18n('home-features__feature1-title'),
-			text: i18n('home-features__feature1-text'),
+			title: i18n('home-features__feature3-title'),
+			text: i18n('home-features__feature3-text'),
 			icon: <Planet3Icon />
 		},
 		{
-			title: i18n('home-features__feature1-title'),
-			text: i18n('home-features__feature1-text'),
+			title: i18n('home-features__feature4-title'),
+			text: i18n('home-features__feature4-text'),
 			icon: <Planet4Icon />
 		},
 		{
-			title: i18n('home-features__feature1-title'),
-			text: i18n('home-features__feature1-text'),
+			title: i18n('home-features__feature5-title'),
+			text: i18n('home-features__feature5-text'),
 			icon: <Planet5Icon />
 		},
 		{
-			title: i18n('home-features__feature1-title'),
-			text: i18n('home-features__feature1-text'),
+			title: i18n('home-features__feature6-title'),
+			text: i18n('home-features__feature6-text'),
 			icon: <Planet6Icon />
 		}
 	];

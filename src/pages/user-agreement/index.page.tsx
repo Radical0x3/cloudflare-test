@@ -1,7 +1,11 @@
 import { AppPage } from 'Interfaces/AppPage';
 import { PropsResult, SSRPublicPageProps } from 'Services/ServerSide';
 import { BaseLayout } from 'Layouts/BaseLayout';
-import { GetUserAgreementPageQuery, GetUserAgreementPageQueryVariables } from 'Services/GQL';
+import {
+	GetUserAgreementPageQuery,
+	GetUserAgreementPageQueryVariables,
+	GlobalSettingsAliasEnumType
+} from 'Services/GQL';
 import { GET_USER_AGREEMENT_PAGE } from './gql';
 import { I18nService, useI18n } from 'Services/I18n';
 import { Section } from 'Components/Section';
@@ -32,11 +36,12 @@ export const getStaticProps = async (
 	const { data } = await client.query<GetUserAgreementPageQuery, GetUserAgreementPageQueryVariables>({
 		query: GET_USER_AGREEMENT_PAGE
 	});
+	const userAgreement = data.globalSettings.find(({ alias }) => alias === GlobalSettingsAliasEnumType.UserAgreement);
 
 	return {
 		props: {
 			normalizedData: {
-				userAgreement: data.globalSettings.user_agreement || ''
+				userAgreement: userAgreement?.value || ''
 			}
 		}
 	};

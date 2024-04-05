@@ -21,7 +21,7 @@ export default function App({ Component: PageComponent, pageProps, emotionCache 
 	const client = ApolloService.getClient({
 		router,
 		language,
-		uri: pageProps?.serverData?.GRAPHQL_API || process.env.GRAPHQL_API
+		uri: pageProps?.normalizedData?.serverData?.GRAPHQL_API
 	});
 
 	useEffect(() => {

@@ -36,6 +36,7 @@ export enum AdminPermissionEnum {
 	GenderList = 'gender_list',
 	GenderSelectList = 'gender_select_list',
 	GenderUpdate = 'gender_update',
+	GlobalSettingCreate = 'global_setting_create',
 	GlobalSettingList = 'global_setting_list',
 	GlobalSettingUpdate = 'global_setting_update',
 	IpAccessCreate = 'ip_access_create',
@@ -70,6 +71,8 @@ export enum AdminPermissionEnum {
 	SubscriptionPlanDelete = 'subscription_plan_delete',
 	SubscriptionPlanList = 'subscription_plan_list',
 	SubscriptionPlanUpdate = 'subscription_plan_update',
+	SubscriptionsDelete = 'subscriptions_delete',
+	SubscriptionsList = 'subscriptions_list',
 	TranslateDelete = 'translate_delete',
 	TranslateList = 'translate_list',
 	TranslateUpdate = 'translate_update',
@@ -93,6 +96,41 @@ export enum AlertEnumType {
 	EmailNotVerified = 'email_not_verified'
 }
 
+export enum AnalyticsCalendarPageTypeEnum {
+	Month = 'month',
+	Week = 'week'
+}
+
+export enum AnalyticsEventTypeForRegistrationEnumType {
+	RegistrationBirthday = 'registration_birthday',
+	RegistrationCode = 'registration_code',
+	RegistrationComplete = 'registration_complete',
+	RegistrationFamilyStatus = 'registration_family_status',
+	RegistrationHobbies = 'registration_hobbies',
+	RegistrationLocation = 'registration_location',
+	RegistrationLookingFor = 'registration_looking_for',
+	RegistrationLookingForGender = 'registration_looking_for_gender',
+	RegistrationNameAndGender = 'registration_name_and_gender',
+	RegistrationPhoto = 'registration_photo',
+	RegistrationProfileDescription = 'registration_profile_description'
+}
+
+export enum AnalyticsNavMenuItemEnum {
+	Calendar = 'calendar',
+	EditProfile = 'edit_profile',
+	Messages = 'messages',
+	Notification = 'notification',
+	Paywall = 'paywall',
+	Profile = 'profile',
+	Swipe = 'swipe'
+}
+
+export enum AnalyticsPaywallClickFromEnum {
+	Calendar = 'calendar',
+	Matches = 'matches',
+	Profile = 'profile'
+}
+
 export enum CalendarDayForDateEnum {
 	Bad = 'bad',
 	Good = 'good',
@@ -113,6 +151,23 @@ export enum GenderEnum {
 	Other = 'other'
 }
 
+export enum GlobalSettingsAliasEnumType {
+	FbLink = 'fb_link',
+	FreeProForNewUsers = 'free_pro_for_new_users',
+	InstagramLink = 'instagram_link',
+	PrivacyPolicy = 'privacy_policy',
+	PrivacyPolicyLink = 'privacy_policy_link',
+	TgLink = 'tg_link',
+	UserAgreement = 'user_agreement',
+	UserAgreementLink = 'user_agreement_link'
+}
+
+export enum GlobalSettingsGroupEnumType {
+	Links = 'links',
+	Pages = 'pages',
+	Subscriptions = 'subscriptions'
+}
+
 export enum MessageTypeEnum {
 	Danger = 'danger',
 	Success = 'success',
@@ -125,9 +180,21 @@ export enum SortableModelsTypeEnum {
 	ZodiacSign = 'zodiac_sign'
 }
 
+export enum SubscriptionPeriodIntervalEnumType {
+	Day = 'day',
+	Month = 'month',
+	Year = 'year'
+}
+
 export enum SubscriptionPlatformEnumType {
 	AppStore = 'app_store',
 	GooglePlay = 'google_play'
+}
+
+export enum SubscriptionTypeEnumType {
+	Manual = 'manual',
+	Promotion = 'promotion',
+	Store = 'store'
 }
 
 export enum UserBlockingEnum {
@@ -141,6 +208,11 @@ export enum UserNotificationTypeEnumType {
 	LoggedInFromNewDevice = 'logged_in_from_new_device',
 	NewChatMessage = 'new_chat_message',
 	NewMatch = 'new_match',
+	NewUsersNearby = 'new_users_nearby',
+	ReceivedFreePro = 'received_free_pro',
+	RegistrationNotCompleted = 'registration_not_completed',
+	UserHasNotLoggedIntoAppFor_3Days = 'user_has_not_logged_into_app_for_3_days',
+	UserHasNotLoggedIntoAppFor_10Days = 'user_has_not_logged_into_app_for_10_days',
 	WeeklyCalendarUpdated = 'weekly_calendar_updated'
 }
 
