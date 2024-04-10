@@ -49,5 +49,6 @@ export const EN = {
 	'unsubscribe__page-title': 'Unsubscribe',
 	unsubscribe__text: 'Are you sure, that you want to unsubscribe?',
 	unsubscribe__button: 'Unsubscribe',
-	unsubscribe__success: 'You have successfully unsubscribed!'
+	unsubscribe__success: 'You have successfully unsubscribed!',
+	'unsubscribe__invalid-link': 'Invalid unsubscribe link'
 };

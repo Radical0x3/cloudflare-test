@@ -1,3 +1,1 @@
-export interface UnsubscribeProps {
-	token: string;
-}
+export interface UnsubscribeProps {}
